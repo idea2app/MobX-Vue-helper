@@ -1,7 +1,7 @@
 # MobX-Vue-helper
 
-[![NPM](https://img.shields.io/npm/v/mobx-vue-helper.svg)](https://www.npmjs.com/package/mobx-vue-helper)
-[![License: LGPL v2.1](https://img.shields.io/badge/License-LGPL%20v2.1-blue.svg)](https://www.gnu.org/licenses/lgpl-2.1)
+[![NPM][npm-badge]][npm-url]
+[![License: LGPL v2.1][license-badge]][license-url]
 
 MobX observer decorator for Vue 3 components, providing seamless integration with MobX state management for both class and function components.
 
@@ -16,7 +16,7 @@ MobX observer decorator for Vue 3 components, providing seamless integration wit
 ## Installation
 
 ```bash
-npm install mobx-vue-helper mobx mobx-vue-lite vue-facing-decorator vue web-utility
+npm install mobx mobx-vue-helper vue-facing-decorator
 ```
 
 ## Usage
@@ -25,6 +25,7 @@ npm install mobx-vue-helper mobx mobx-vue-lite vue-facing-decorator vue web-util
 
 ```tsx
 import { Vue, Component, toNative } from 'vue-facing-decorator';
+
 import { observer } from 'mobx-vue-helper';
 import counterStore from './models/Counter';
 
@@ -46,6 +47,7 @@ export default toNative(MyMobX);
 
 ```tsx
 import { observer } from 'mobx-vue-helper';
+
 import counterStore from './models/Counter';
 
 export const MyMobX = observer(() => (
@@ -85,12 +87,10 @@ The `@observer` decorator wraps your component's render function with MobX's `Ob
 
 ## Requirements
 
+- TypeScript 5.x
 - Vue 3.x
-- MobX 6.x or higher
-- TypeScript 5.x (recommended)
-- vue-facing-decorator 3.x or higher
-- mobx-vue-lite 1.x or higher
-- web-utility 4.x or higher
+- MobX 6.x
+- Vue-facing-decorator 4.x
 
 ## License
 
@@ -98,4 +98,10 @@ LGPL-2.1
 
 ## Credits
 
-This package is part of the [idea2app](https://github.com/idea2app) ecosystem and is inspired by the observer pattern from `mobx-react`.
+This package is part of the [idea2app][idea2app-url] ecosystem and is inspired by the observer pattern from `mobx-react`.
+
+[npm-badge]: https://img.shields.io/npm/v/mobx-vue-helper.svg
+[npm-url]: https://www.npmjs.com/package/mobx-vue-helper
+[license-badge]: https://img.shields.io/badge/License-LGPL%20v2.1-blue.svg
+[license-url]: https://www.gnu.org/licenses/lgpl-2.1
+[idea2app-url]: https://github.com/idea2app

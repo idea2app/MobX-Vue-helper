@@ -1,7 +1,10 @@
 node_modules/
 dist/
+docs/
 *.log
 .DS_Store
 .vscode/
 .idea/
 *.tsbuildinfo
+package-lock.json
+yarn.lock

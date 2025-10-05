@@ -1,7 +1,7 @@
 {
   "name": "mobx-vue-helper",
   "version": "0.1.0",
-  "description": "MobX observer decorator for Vue 3 components",
+  "description": "MobX Class & JSX helpers for Vue 3 components",
   "keywords": [
     "mobx",
     "vue",
@@ -35,22 +35,19 @@
   ],
   "scripts": {
     "build": "tsc",
+    "document": "typedoc src/",
     "prepublishOnly": "npm run build"
   },
-  "peerDependencies": {
-    "mobx": ">=6.0.0",
-    "mobx-vue-lite": ">=0.4.0",
-    "vue": ">=3.0.0",
-    "vue-facing-decorator": ">=3.0.0",
-    "web-utility": ">=4.0.0"
+  "dependencies": {
+    "mobx": ">=6.11",
+    "mobx-vue-lite": ">=0.4",
+    "vue": ">=3",
+    "vue-facing-decorator": ">=4",
+    "web-utility": ">=4"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
-    "mobx": "^6.13.0",
-    "mobx-vue-lite": "^0.4.3",
-    "typescript": "^5.7.0",
-    "vue": "^3.5.0",
-    "vue-facing-decorator": "^4.0.1",
-    "web-utility": "^4.4.0"
+    "typedoc": "^0.27.0",
+    "typescript": "^5.7.0"
   }
 }
