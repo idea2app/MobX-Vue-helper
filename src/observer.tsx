@@ -3,7 +3,7 @@ import { Vue } from 'vue-facing-decorator';
 import { Observer } from 'mobx-vue-lite';
 import { Constructor } from 'web-utility';
 
-type VueInstance = InstanceType<typeof Vue>;
+export type VueInstance = InstanceType<typeof Vue>;
 
 /**
  * Observer decorator/wrapper for both class and function components.

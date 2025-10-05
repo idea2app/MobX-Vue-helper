@@ -1,18 +1,22 @@
 {
   "name": "mobx-vue-helper",
   "version": "0.1.0",
-  "description": "MobX Class & JSX helpers for Vue 3 components",
+  "license": "LGPL-2.1",
+  "author": "shiy2008@gmail.com",
+  "description": "MobX Class & JSX helpers for Vue 3 components, providing seamless integration with MobX state management for both class and function components.",
   "keywords": [
     "mobx",
     "vue",
     "vue3",
+    "class",
     "decorator",
     "observer",
-    "reactive"
+    "reactive",
+    "jsx",
+    "helper",
+    "utility"
   ],
-  "license": "LGPL-2.1",
-  "author": "idea2app",
-  "homepage": "https://github.com/idea2app/MobX-Vue-helper#readme",
+  "homepage": "https://idea2app.github.io/MobX-Vue-helper/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/idea2app/MobX-Vue-helper.git"
@@ -30,24 +34,38 @@
       "import": "./dist/index.js"
     }
   },
-  "files": [
-    "dist/"
-  ],
-  "scripts": {
-    "build": "tsc",
-    "document": "typedoc src/",
-    "prepublishOnly": "npm run build"
-  },
   "dependencies": {
     "mobx": ">=6.11",
-    "mobx-vue-lite": ">=0.4",
+    "mobx-vue-lite": "^0.4.3",
     "vue": ">=3",
     "vue-facing-decorator": ">=4",
-    "web-utility": ">=4"
+    "web-utility": "^4.6.1"
   },
   "devDependencies": {
-    "@types/node": "^20.0.0",
-    "typedoc": "^0.27.0",
-    "typescript": "^5.7.0"
+    "@types/node": "^22.18.8",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.3",
+    "prettier": "^3.6.2",
+    "typedoc": "^0.28.13",
+    "typescript": "~5.9.3"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "vue-demi"
+    ]
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "none",
+    "arrowParens": "avoid"
+  },
+  "lint-staged": {
+    "*.{md,json,yml,ts,tsx}": "prettier --write"
+  },
+  "scripts": {
+    "prepare": "husky",
+    "test": "lint-staged",
+    "build": "rm -rf dist/ docs/  &&  tsc  &&  typedoc src/",
+    "prepublishOnly": "npm run build"
   }
 }

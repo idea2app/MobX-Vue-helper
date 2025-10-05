@@ -2,25 +2,16 @@
 
 ## Development Setup
 
-1. Clone the repository:
 ```bash
 git clone https://github.com/idea2app/MobX-Vue-helper.git
 cd MobX-Vue-helper
-```
-
-2. Install dependencies:
-```bash
-npm install
-```
-
-3. Build the package:
-```bash
-npm run build
+pnpm i
+pnpm build
 ```
 
 ## Project Structure
 
-```
+```text
 mobx-vue-helper/
 ├── src/
 │   ├── index.ts        # Main entry point
@@ -30,7 +21,7 @@ mobx-vue-helper/
 │   └── workflows/      # CI/CD workflows
 ├── package.json        # Package configuration
 ├── tsconfig.json       # TypeScript configuration
-└── README.md          # Documentation
+└── README.md           # Documentation
 ```
 
 ## Building
@@ -38,46 +29,14 @@ mobx-vue-helper/
 The package uses TypeScript compiler for building:
 
 ```bash
-npm run build
+pnpm build
 ```
 
 This will compile TypeScript files from `src/` to `dist/` with:
+
 - JavaScript files (`.js`)
 - Type definitions (`.d.ts`)
 - Source maps (`.js.map`, `.d.ts.map`)
-
-## Publishing to NPM
-
-### Automatic Publishing (Recommended)
-
-1. Update the version in `package.json`:
-   ```bash
-   npm version patch  # for bug fixes
-   npm version minor  # for new features
-   npm version major  # for breaking changes
-   ```
-
-2. Update `CHANGELOG.md` with the changes
-
-3. Create a GitHub release with the tag `v{version}`
-   - The GitHub Actions workflow will automatically build and publish to NPM
-
-### Manual Publishing
-
-1. Ensure you're logged in to NPM:
-   ```bash
-   npm login
-   ```
-
-2. Build the package:
-   ```bash
-   npm run build
-   ```
-
-3. Publish to NPM:
-   ```bash
-   npm publish
-   ```
 
 ## Code Style
 
