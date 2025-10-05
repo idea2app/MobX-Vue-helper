@@ -1,0 +1,56 @@
+{
+  "name": "mobx-vue-helper",
+  "version": "0.1.0",
+  "description": "MobX observer decorator for Vue 3 components",
+  "keywords": [
+    "mobx",
+    "vue",
+    "vue3",
+    "decorator",
+    "observer",
+    "reactive"
+  ],
+  "license": "LGPL-2.1",
+  "author": "idea2app",
+  "homepage": "https://github.com/idea2app/MobX-Vue-helper#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/idea2app/MobX-Vue-helper.git"
+  },
+  "bugs": {
+    "url": "https://github.com/idea2app/MobX-Vue-helper/issues"
+  },
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "mobx": ">=6.0.0",
+    "mobx-vue-lite": ">=0.4.0",
+    "vue": ">=3.0.0",
+    "vue-facing-decorator": ">=3.0.0",
+    "web-utility": ">=4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "mobx": "^6.13.0",
+    "mobx-vue-lite": "^0.4.3",
+    "typescript": "^5.7.0",
+    "vue": "^3.5.0",
+    "vue-facing-decorator": "^4.0.1",
+    "web-utility": "^4.4.0"
+  }
+}
