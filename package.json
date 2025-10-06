@@ -1,6 +1,6 @@
 {
   "name": "mobx-vue-helper",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "LGPL-2.1",
   "author": "shiy2008@gmail.com",
   "description": "MobX Class & JSX helpers for Vue 3 components, providing seamless integration with MobX state management for both class and function components.",
@@ -36,10 +36,9 @@
   },
   "dependencies": {
     "mobx": ">=6.11",
-    "mobx-vue-lite": "^0.4.3",
+    "mobx-vue-lite": ">=0.4",
     "vue": ">=3",
-    "vue-facing-decorator": ">=4",
-    "web-utility": "^4.6.1"
+    "vue-facing-decorator": ">=4"
   },
   "devDependencies": {
     "@types/node": "^22.18.8",
@@ -57,7 +56,8 @@
   "prettier": {
     "singleQuote": true,
     "trailingComma": "none",
-    "arrowParens": "avoid"
+    "arrowParens": "avoid",
+    "printWidth": 100
   },
   "lint-staged": {
     "*.{md,json,yml,ts,tsx}": "prettier --write"

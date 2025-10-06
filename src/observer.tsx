@@ -1,31 +1,20 @@
 import { FunctionalComponent, defineComponent, SetupContext } from 'vue';
-import { Vue } from 'vue-facing-decorator';
+import { HookMounted, HookRender, HookUnmounted, Vue } from 'vue-facing-decorator';
+import { IReactionDisposer, IReactionPublic, reaction as watch } from 'mobx';
 import { Observer } from 'mobx-vue-lite';
-import { Constructor } from 'web-utility';
-import {
-  IReactionDisposer,
-  IReactionPublic,
-  reaction as mobxReaction
-} from 'mobx';
+
+export type Constructor<T = {}> = new (...data: any[]) => T;
 
 export type VueInstance = InstanceType<typeof Vue>;
 
-export type ReactionExpression<I = any, O = any> = (
-  data: I,
-  reaction: IReactionPublic
-) => O;
+export type ReactionExpression<I = any, O = any> = (data: I, reaction: IReactionPublic) => O;
 
-export type ReactionEffect<V> = (
-  newValue: V,
-  oldValue: V,
-  reaction: IReactionPublic
-) => any;
+export type ReactionEffect<V> = (newValue: V, oldValue: V, reaction: IReactionPublic) => any;
 
 interface ReactionItem {
   expression: ReactionExpression;
   effect: (...data: any[]) => any;
 }
-
 const reactionMap = new WeakMap<object, ReactionItem[]>();
 
 /**
@@ -37,21 +26,27 @@ const reactionMap = new WeakMap<object, ReactionItem[]>();
  * import { Vue, Component, toNative } from 'vue-facing-decorator';
  * import { observer, reaction } from 'mobx-vue-helper';
  *
+ * class Counter {
+ *     @observable
+ *     count = 0;
+ * }
+ *
  * @Component
  * @observer
  * class MyTag extends Vue {
- *     @observable
- *     accessor count = 0;
+ *     counter = new Counter();
  *
- *     @reaction(({ count }) => count)
+ *     @reaction(({ counter }) => counter.count)
  *     handleCountChange(newValue: number, oldValue: number) {
  *         console.log(`Count changed from ${oldValue} to ${newValue}`);
  *     }
  *
  *     render() {
+ *        const { counter } = this;
+ *
  *        return (
- *            <button onClick={() => this.count++}>
- *                Up count {this.count}
+ *            <button onClick={() => counter.count++}>
+ *                Up count {counter.count}
  *            </button>
  *        );
  *    }
@@ -61,10 +56,7 @@ const reactionMap = new WeakMap<object, ReactionItem[]>();
  */
 export const reaction =
   <C extends VueInstance, V>(expression: ReactionExpression<C, V>) =>
-  (
-    effect: ReactionEffect<V>,
-    { addInitializer }: ClassMethodDecoratorContext<C>
-  ) =>
+  (effect: ReactionEffect<V>, { addInitializer }: ClassMethodDecoratorContext<C>) =>
     addInitializer(function () {
       const reactions = reactionMap.get(this) || [];
 
@@ -73,43 +65,31 @@ export const reaction =
       reactionMap.set(this, reactions);
     });
 
-function wrapClass<T extends Constructor<VueInstance>>(Component: T): T {
-  // @ts-ignore - Dynamic inheritance makes super calls valid at runtime
-  class ObserverComponent extends Component {
-    protected disposers: IReactionDisposer[] = [];
+type UserComponent = Constructor<VueInstance & Partial<HookRender & HookMounted & HookUnmounted>>;
 
-    mounted() {
-      const reactions = reactionMap.get(this) || [];
+const wrapClass = <T extends typeof Vue>(Component: T) =>
+  class ObserverComponent extends (Component as UserComponent) {
+    protected disposers?: IReactionDisposer[] = [];
 
-      this.disposers.push(
-        ...reactions.map(({ expression, effect }) =>
-          mobxReaction(
-            reaction => expression(this, reaction),
-            effect.bind(this)
-          )
-        )
-      );
+    mounted = () => {
+      this.disposers = reactionMap
+        .get(this)
+        ?.map(({ expression, effect }) =>
+          watch(reaction => expression(this, reaction), effect.bind(this))
+        );
+      super.mounted?.();
+    };
 
-      // @ts-ignore - super.mounted exists at runtime from parent class
-      if (super.mounted) super.mounted();
-    }
+    render = () => <Observer>{() => super.render?.()}</Observer>;
 
-    render() {
-      // @ts-ignore - super.render exists at runtime from parent class
-      return <Observer>{() => super.render()}</Observer>;
-    }
+    unmounted = () => {
+      for (const disposer of this.disposers || []) disposer();
 
-    unmounted() {
-      for (const disposer of this.disposers) disposer();
-      this.disposers.length = 0;
+      this.disposers = [];
 
-      // @ts-ignore - super.unmounted exists at runtime from parent class
-      if (super.unmounted) super.unmounted();
-    }
-  }
-
-  return ObserverComponent as unknown as T;
-}
+      super.unmounted?.();
+    };
+  };
 
 /**
  * Observer decorator/wrapper for both class and function components.
@@ -147,7 +127,7 @@ function wrapClass<T extends Constructor<VueInstance>>(Component: T): T {
  * export default toNative(MyMobX);
  * ```
  */
-export function observer<T extends Constructor<VueInstance>>(
+export function observer<T extends typeof Vue>(
   ClassComponent: T,
   {}: ClassDecoratorContext<T>
 ): void | T;
@@ -158,13 +138,11 @@ export function observer(component: unknown): unknown {
   if (typeof component === 'function') {
     const { prototype } = component as { prototype?: Record<string, unknown> };
 
-    if (prototype instanceof Vue || typeof prototype?.render === 'function') {
-      return wrapClass(component as Constructor<VueInstance>);
-    }
+    if (prototype instanceof Vue || typeof prototype?.render === 'function')
+      return wrapClass(component as typeof Vue);
   }
-  const FunctionComponent = component as FunctionalComponent<
-    Record<string, unknown>
-  >;
+  const FunctionComponent = component as FunctionalComponent<Record<string, unknown>>;
+
   return defineComponent({
     setup: (props: Record<string, unknown>, context: SetupContext) => () => (
       <Observer>{() => FunctionComponent(props, context)}</Observer>

@@ -20,9 +20,6 @@ importers:
       vue-facing-decorator:
         specifier: '>=4'
         version: 4.0.1(vue@3.5.22(typescript@5.9.3))
-      web-utility:
-        specifier: ^4.6.1
-        version: 4.6.1(element-internals-polyfill@3.0.2)(typescript@5.9.3)
     devDependencies:
       '@types/node':
         specifier: ^22.18.8
@@ -82,9 +79,6 @@ packages:
 
   '@shikijs/vscode-textmate@10.0.2':
     resolution: {integrity: sha512-83yeghZ2xxin3Nj8z1NMd/NCuca+gsYXswywDy5bHvwlWL8tpTQmzGeUuHd9FC3E/SBEMvzJRwWEOz5gGes9Qg==}
-
-  '@swc/helpers@0.5.17':
-    resolution: {integrity: sha512-5IKx/Y13RsYd+sauPb2x+U/xZikHjolzfuDgTAl/Tdf3Q8rslRvC19NKDLgAJQ6wsqADk10ntlv08nPFw/gO/A==}
 
   '@types/hast@3.0.4':
     resolution: {integrity: sha512-WPs+bbQw5aCj+x6laNGWLH3wviHtoCv/P3+otBhbOhJgG8qtpdAMlTCxLtsTWA7LH1Oh/bFCHsBn0TPS5m30EQ==}
@@ -178,9 +172,6 @@ packages:
 
   csstype@3.1.3:
     resolution: {integrity: sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==}
-
-  element-internals-polyfill@3.0.2:
-    resolution: {integrity: sha512-uB0/Qube3lkwh8SmkTnGIyUgJ9YdqVSzIoHMRCEQjAbD4Y5UzsVbch1tIxjTgUe5k3gy1U0ZMKMJ90A81lqwig==}
 
   emoji-regex@10.5.0:
     resolution: {integrity: sha512-lb49vf1Xzfx080OKA0o6l8DQQpV+6Vg95zyCJX9VB/BqKYlhG7N4wgROUUHRA+ZPUefLnteQOad7z1kT2bV7bg==}
@@ -311,9 +302,6 @@ packages:
     resolution: {integrity: sha512-uxFIHU0YlHYhDQtV4R9J6a52SLx28BCjT+4ieh7IGbgwVJWO+km431c4yRlREUAsAmt/uMjQUyQHNEPf0M39CA==}
     engines: {node: '>=6'}
 
-  regenerator-runtime@0.14.1:
-    resolution: {integrity: sha512-dYnhHh0nJoMfnkZs6GmmhFknAGRrLznOu5nc9ML+EJxGvrx6H7teuevqVqCuPcPK//3eDrrjQhehXVx9cnkGdw==}
-
   restore-cursor@5.1.0:
     resolution: {integrity: sha512-oMA2dcrw6u0YfxJQXm342bFKX/E4sG9rbTzO9ptUcR/e8A33cHuvStiYOwH7fszkZlZ1z/ta9AAoPk2F4qIOHA==}
     engines: {node: '>=18'}
@@ -352,9 +340,6 @@ packages:
   to-regex-range@5.0.1:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
     engines: {node: '>=8.0'}
-
-  tslib@2.8.1:
-    resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
   typedoc@0.28.13:
     resolution: {integrity: sha512-dNWY8msnYB2a+7Audha+aTF1Pu3euiE7ySp53w8kEsXoYw7dMouV5A1UsTUY345aB152RHnmRMDiovuBi7BD+w==}
@@ -397,12 +382,6 @@ packages:
     peerDependenciesMeta:
       typescript:
         optional: true
-
-  web-utility@4.6.1:
-    resolution: {integrity: sha512-UjV8A0ELm0Dxmar4mUrX4WekHIJFeg67cWZU8pCO1rvB5l/6YBzrWrmRWxh/HdH3lrrjs+0EJ98XUkDGGjWqDg==}
-    peerDependencies:
-      element-internals-polyfill: '>=1'
-      typescript: '>=4.1'
 
   wrap-ansi@9.0.2:
     resolution: {integrity: sha512-42AtmgqjV+X1VpdOfyTGOYRi0/zsoLqtXQckTmqTeybT+BDIbM/Guxo7x3pE2vtpr1ok6xRqM9OpBe+Jyoqyww==}
@@ -457,10 +436,6 @@ snapshots:
       '@types/hast': 3.0.4
 
   '@shikijs/vscode-textmate@10.0.2': {}
-
-  '@swc/helpers@0.5.17':
-    dependencies:
-      tslib: 2.8.1
 
   '@types/hast@3.0.4':
     dependencies:
@@ -582,8 +557,6 @@ snapshots:
 
   csstype@3.1.3: {}
 
-  element-internals-polyfill@3.0.2: {}
-
   emoji-regex@10.5.0: {}
 
   entities@4.5.0: {}
@@ -703,8 +676,6 @@ snapshots:
 
   punycode.js@2.3.1: {}
 
-  regenerator-runtime@0.14.1: {}
-
   restore-cursor@5.1.0:
     dependencies:
       onetime: 7.0.0
@@ -742,8 +713,6 @@ snapshots:
     dependencies:
       is-number: 7.0.0
 
-  tslib@2.8.1: {}
-
   typedoc@0.28.13(typescript@5.9.3):
     dependencies:
       '@gerrit0/mini-shiki': 3.13.0
@@ -776,13 +745,6 @@ snapshots:
       '@vue/server-renderer': 3.5.22(vue@3.5.22(typescript@5.9.3))
       '@vue/shared': 3.5.22
     optionalDependencies:
-      typescript: 5.9.3
-
-  web-utility@4.6.1(element-internals-polyfill@3.0.2)(typescript@5.9.3):
-    dependencies:
-      '@swc/helpers': 0.5.17
-      element-internals-polyfill: 3.0.2
-      regenerator-runtime: 0.14.1
       typescript: 5.9.3
 
   wrap-ansi@9.0.2:
