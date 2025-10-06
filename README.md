@@ -8,6 +8,7 @@ MobX Class & [JSX helpers for Vue 3 components][1], providing seamless integrati
 
 - 🎯 **Universal Support**: Works with both `class` and `function` components
 - 🔄 **Auto Reactivity**: Automatically tracks and reacts to MobX observable state changes
+- ⚡ **Reaction Decorator**: `@reaction()` decorator for declarative side effects on observable changes
 - 🎨 **TypeScript First**: Full TypeScript support with type definitions
 - 🚀 **Easy to Use**: Simple `@observer` decorator API, similar to `mobx-react`
 - 💪 **Vue 3 Compatible**: Built for Vue 3 with composition API support
@@ -77,12 +78,62 @@ export class CounterStore {
 export default new CounterStore();
 ```
 
+### Using `@reaction()` Decorator
+
+The `@reaction()` decorator allows you to define side effects that run when specific observable values change. It's based on MobX's [reaction API](https://mobx.js.org/reactions.html#reaction).
+
+```tsx
+import { Vue, Component, toNative } from 'vue-facing-decorator';
+import { observable } from 'mobx';
+import { observer, reaction } from 'mobx-vue-helper';
+
+@Component
+@observer
+class MyComponent extends Vue {
+  @observable
+  accessor count = 0;
+
+  @observable
+  accessor name = 'World';
+
+  // This method will be called whenever count changes
+  @reaction(({ count }) => count)
+  handleCountChange(newValue: number, oldValue: number) {
+    console.log(`Count changed from ${oldValue} to ${newValue}`);
+  }
+
+  // You can have multiple reactions
+  @reaction(({ name }) => name)
+  handleNameChange(newName: string, oldName: string) {
+    console.log(`Name changed from ${oldName} to ${newName}`);
+  }
+
+  increment() {
+    this.count++;
+  }
+
+  render() {
+    return (
+      <div>
+        <p>Hello {this.name}!</p>
+        <button onClick={() => this.increment()}>Count: {this.count}</button>
+      </div>
+    );
+  }
+}
+export default toNative(MyComponent);
+```
+
+**Note**: The `@reaction()` decorator should be used with the `@observer` decorator on the class. Reactions are automatically disposed when the component is unmounted.
+
 ## How It Works
 
 The `@observer` decorator wraps your component's render function with MobX's `<Observer />` component from `mobx-vue-lite`. This enables automatic tracking of observable access during render and triggers re-renders when tracked observables change.
 
-- **For class components**: The decorator wraps the `render()` method of `vue-facing-decorator` class components
+- **For class components**: The decorator uses class inheritance to create a wrapper component that extends your original component, wrapping the `render()` method and managing MobX reactions lifecycle
 - **For function components**: The wrapper creates a Vue component with a setup function that wraps your functional component
+
+The `@reaction()` decorator allows you to define MobX reactions directly on class methods. These reactions are automatically initialized when the component mounts and disposed when it unmounts.
 
 ### Limits
 
