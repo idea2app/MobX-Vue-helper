@@ -74,17 +74,11 @@ export const reaction =
     });
 
 function wrapClass<T extends Constructor<VueInstance>>(Component: T): T {
-  class ObserverComponent extends (Component as Constructor<VueInstance>) {
+  // @ts-ignore - Dynamic inheritance makes super calls valid at runtime
+  class ObserverComponent extends Component {
     protected disposers: IReactionDisposer[] = [];
 
-    constructor(...args: any[]) {
-      super(...args);
-
-      // Wait for next tick to ensure component is fully initialized
-      Promise.resolve().then(() => this.bootReactions());
-    }
-
-    protected bootReactions() {
+    mounted() {
       const reactions = reactionMap.get(this) || [];
 
       this.disposers.push(
@@ -95,28 +89,22 @@ function wrapClass<T extends Constructor<VueInstance>>(Component: T): T {
           )
         )
       );
+
+      // @ts-ignore - super.mounted exists at runtime from parent class
+      if (super.mounted) super.mounted();
     }
 
     render() {
-      const parentRender = (Component.prototype as any).render as
-        | (() => unknown)
-        | undefined;
-      if (typeof parentRender === 'function') {
-        return <Observer>{() => parentRender.call(this)}</Observer>;
-      }
-      return null;
+      // @ts-ignore - super.render exists at runtime from parent class
+      return <Observer>{() => super.render()}</Observer>;
     }
 
     unmounted() {
       for (const disposer of this.disposers) disposer();
       this.disposers.length = 0;
 
-      const parentUnmounted = (Component.prototype as any).unmounted as
-        | (() => void)
-        | undefined;
-      if (typeof parentUnmounted === 'function') {
-        parentUnmounted.call(this);
-      }
+      // @ts-ignore - super.unmounted exists at runtime from parent class
+      if (super.unmounted) super.unmounted();
     }
   }
 

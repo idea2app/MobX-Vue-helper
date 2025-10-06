@@ -84,40 +84,24 @@ The `@reaction()` decorator allows you to define side effects that run when spec
 
 ```tsx
 import { Vue, Component, toNative } from 'vue-facing-decorator';
-import { observable } from 'mobx';
 import { observer, reaction } from 'mobx-vue-helper';
+
+import counterStore from './models/Counter';
 
 @Component
 @observer
 class MyComponent extends Vue {
-  @observable
-  accessor count = 0;
-
-  @observable
-  accessor name = 'World';
-
   // This method will be called whenever count changes
-  @reaction(({ count }) => count)
+  @reaction(({ count }) => counterStore.count)
   handleCountChange(newValue: number, oldValue: number) {
     console.log(`Count changed from ${oldValue} to ${newValue}`);
   }
 
-  // You can have multiple reactions
-  @reaction(({ name }) => name)
-  handleNameChange(newName: string, oldName: string) {
-    console.log(`Name changed from ${oldName} to ${newName}`);
-  }
-
-  increment() {
-    this.count++;
-  }
-
   render() {
     return (
-      <div>
-        <p>Hello {this.name}!</p>
-        <button onClick={() => this.increment()}>Count: {this.count}</button>
-      </div>
+      <button onClick={() => counterStore.increment()}>
+        Count: {counterStore.count}
+      </button>
     );
   }
 }
